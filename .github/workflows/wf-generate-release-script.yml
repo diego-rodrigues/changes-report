@@ -1,0 +1,35 @@
+name: Generate Release Script
+
+on: [push]
+
+env:
+  REFERENCE_BRANCH: main
+  SCRIPT_PREFIX: rs_
+  WHITELIST_PATHS: src/
+
+jobs:
+  gen-script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    # - name: Set up Python 3.10
+    #   uses: actions/setup-python@v5
+    #   with:
+    #     python-version: '3.10'
+    
+    - name: Get DIFF
+      uses: GrantBirki/git-diff-action@v2.6.1
+      id: git-diff-action
+      with:
+        json_diff_file_output: diff.json
+        file_output_only: "true"
+
+    - name: Print DIFF
+      env:
+        DIFF: ${{ steps.git-diff-action.outputs.json-diff-path }}
+      run: cat $DIFF
