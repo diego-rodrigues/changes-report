@@ -6,7 +6,7 @@ AS
 $$
     BEGIN
         BEGIN TRANSACTION;
-            RETURN ('Executed procedure!');
+            RETURN ('Executed procedure V2!');
         COMMIT;
 
     EXCEPTION
