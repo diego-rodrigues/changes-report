@@ -17,7 +17,8 @@ jobs:
           persist-credentials: false
       - run: "date > datetime.txt" # create or update a test.txt file
       
-      - uses: gr2m/create-or-update-pull-request-action@v1
+      - name: Create or Update Pull Request
+        uses: gr2m/create-or-update-pull-request-action@v1.9.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
