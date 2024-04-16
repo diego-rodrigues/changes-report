@@ -72,5 +72,7 @@ jobs:
       - name: Create Report
         run: |
           # echo '### Hello world! 🚀' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
           cat ${{ env.OUTPUT_SCRIPT }} >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
       
