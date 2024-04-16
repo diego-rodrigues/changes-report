@@ -40,8 +40,18 @@ jobs:
     #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     #   run: gh pr checkout ${{ github.event.pull_request.number }}
 
-    - name: Push changes
-      uses: gr2m/create-or-update-pull-request-action@v1
+    # - name: Push changes
+    #   uses: gr2m/create-or-update-pull-request-action@v1
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Commit and push changes
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git config --local user.email "ghactions@marionete.co.uk"
+        git config --local user.name "Mari Bot"
+        git add .
+        git commit -m "Compile translations"
+        git push
       
