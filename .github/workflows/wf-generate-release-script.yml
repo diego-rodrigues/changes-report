@@ -3,7 +3,7 @@ name: Generate Release Script
 on: [push]
 
 env:
-  REFERENCE_BRANCH: main
+  REFERENCE_BRANCH: origin/main
   SCRIPT_PREFIX: rs_
   WHITELIST_PATHS: src/
 
@@ -28,7 +28,7 @@ jobs:
       with:
         json_diff_file_output: diff.json
         file_output_only: "true"
-        base_branch: ${{ github.event.pull_request.base.sha }}
+        base_branch: ${{ env.REFERENCE_BRANCH }} #origin/main works
 
     - name: Print DIFF
       env:
