@@ -64,6 +64,8 @@ jobs:
       #   git push
         
       - name: Adding markdown
+        env:
+          DIFF: ${{ steps.git-diff-action.outputs.json-diff-path }}
         run: |
           # echo '### Hello world! 🚀' >> $GITHUB_STEP_SUMMARY
           cat $DIFF >> $GITHUB_STEP_SUMMARY
