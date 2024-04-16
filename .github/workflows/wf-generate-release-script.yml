@@ -28,7 +28,7 @@ jobs:
       with:
         json_diff_file_output: diff.json
         file_output_only: "true"
-        base_branch: main
+        base_branch: origin/main
 
     - name: Print DIFF
       env:
