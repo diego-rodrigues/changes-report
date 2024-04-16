@@ -64,6 +64,18 @@ jobs:
       #   git commit -m "Compile translations"
       #   git push
 
+      - name: Get PR Number
+        id: pr_number
+        run: echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
+
+      - name: Construct PR Summary Link
+        id: pr_summary_link
+        run: echo "PR_SUMMARY_LINK=https://${{ env.GITHUB_SERVER_URL }}/${{ env.GITHUB_REPOSITORY }}/pull/${{ steps.pr_number.outputs.PR_NUMBER }}" >> $GITHUB_ENV
+
+      - name: Display PR Summary Link
+        run: |
+          echo "PR Summary Link: ${{ env.PR_SUMMARY_LINK }}"
+
       - name: Generate Report
         run: |
           pip install -r requirements.txt
