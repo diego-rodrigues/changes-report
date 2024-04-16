@@ -28,7 +28,7 @@ jobs:
       with:
         json_diff_file_output: diff.json
         file_output_only: "true"
-        base_branch: ${{ env.REFERENCE_BRANCH }}
+        # base_branch: ${{ env.REFERENCE_BRANCH }} -- try to change this later
 
     - name: Print DIFF
       env:
