@@ -6,6 +6,7 @@ env:
   REFERENCE_BRANCH: origin/main
   SCRIPT_PREFIX: rs_
   WHITELIST_PATHS: src/
+  OUTPUT_SCRIPT: output-script.sql
 
 jobs:
   gen-script:
@@ -25,10 +26,10 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
-    # - name: Set up Python 3.10
-    #   uses: actions/setup-python@v5
-    #   with:
-    #     python-version: '3.10'
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
     
       - name: Get DIFF
         uses: GrantBirki/git-diff-action@v2.6.1
@@ -62,11 +63,14 @@ jobs:
       #   git add .
       #   git commit -m "Compile translations"
       #   git push
+
+      - name: Generate Report
+        run: |
+          pip install -r requirements.txt
+          python .github/code/get_diff.py
         
-      - name: Adding markdown
-        env:
-          DIFF: ${{ steps.git-diff-action.outputs.json-diff-path }}
+      - name: Create Report
         run: |
           # echo '### Hello world! 🚀' >> $GITHUB_STEP_SUMMARY
-          cat $DIFF >> $GITHUB_STEP_SUMMARY
+          cat ${{ env.OUTPUT_SCRIPT }} >> $GITHUB_STEP_SUMMARY
       
