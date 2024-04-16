@@ -38,10 +38,10 @@ jobs:
           file_output_only: "true"
           base_branch: ${{ env.REFERENCE_BRANCH }} #origin/main works
 
-    # - name: Print DIFF
-    #   env:
-    #     DIFF: ${{ steps.git-diff-action.outputs.json-diff-path }}
-    #   run: cat $DIFF
+      - name: Print DIFF
+        env:
+          DIFF: ${{ steps.git-diff-action.outputs.json-diff-path }}
+        run: cat $DIFF
 
     # - name: Checkout PR
     #   env:
