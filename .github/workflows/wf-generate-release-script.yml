@@ -12,41 +12,50 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        persist-credentials: false
-        fetch-depth: 0
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - run: "date > datetime.txt" # create or update a test.txt file
+      
+      - uses: gr2m/create-or-update-pull-request-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # - name: Checkout repository
+    #   uses: actions/checkout@v2
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     persist-credentials: false
+    #     fetch-depth: 0
 
     # - name: Set up Python 3.10
     #   uses: actions/setup-python@v5
     #   with:
     #     python-version: '3.10'
     
-    - name: Get DIFF
-      uses: GrantBirki/git-diff-action@v2.6.1
-      id: git-diff-action
-      with:
-        json_diff_file_output: diff.json
-        file_output_only: "true"
-        base_branch: ${{ env.REFERENCE_BRANCH }} #origin/main works
+    # - name: Get DIFF
+    #   uses: GrantBirki/git-diff-action@v2.6.1
+    #   id: git-diff-action
+    #   with:
+    #     json_diff_file_output: diff.json
+    #     file_output_only: "true"
+    #     base_branch: ${{ env.REFERENCE_BRANCH }} #origin/main works
 
-    - name: Print DIFF
-      env:
-        DIFF: ${{ steps.git-diff-action.outputs.json-diff-path }}
-      run: cat $DIFF
+    # - name: Print DIFF
+    #   env:
+    #     DIFF: ${{ steps.git-diff-action.outputs.json-diff-path }}
+    #   run: cat $DIFF
 
     # - name: Checkout PR
     #   env:
     #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     #   run: gh pr checkout ${{ github.event.pull_request.number }}
 
-    - name: Push changes
-      uses: gr2m/create-or-update-pull-request-action@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Push changes
+    #   uses: gr2m/create-or-update-pull-request-action@v1
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # - name: Commit and push changes
       # env:
