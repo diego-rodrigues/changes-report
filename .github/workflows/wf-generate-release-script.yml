@@ -7,6 +7,7 @@ env:
   SCRIPT_PREFIX: rs_
   WHITELIST_PATHS: src/
   OUTPUT_SCRIPT: output-script.sql
+  PR_NUMBER: ${{ github.event.pull_request.number }}
 
 jobs:
   gen-script:
@@ -66,7 +67,9 @@ jobs:
 
       - name: Get PR Number
         id: pr_number
-        run: echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
+        run: |
+          echo ${{ env.PR_NUMBER }}
+          echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
 
       - name: Construct PR Summary Link
         id: pr_summary_link
