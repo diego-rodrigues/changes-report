@@ -44,6 +44,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
+        git config --global user.email "robotGHA"
+        git config --global user.name "GithubActions Robot"
         git add diff.json
         git commit -m 'GHA: add diff'
         git push
