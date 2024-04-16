@@ -90,4 +90,16 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
           cat ${{ env.OUTPUT_SCRIPT }} >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Get PR ID
+        id: pr_id
+        run: |
+          PR_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          "https://api.github.com/repos/${{ github.repository }}/pulls?head=${{ github.repository_owner }}:${{ github.ref }}&state=open" \
+          | jq -r '.[0].number')
+          echo "PR_ID=$PR_ID" >> $GITHUB_ENV
+  
+      - name: Display PR ID
+        run: |
+          echo "PR ID: ${{ env.PR_ID }}"
       
