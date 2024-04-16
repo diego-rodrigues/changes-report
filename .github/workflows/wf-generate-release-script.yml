@@ -65,6 +65,6 @@ jobs:
         
       - name: Adding markdown
         run: |
-          echo '### Hello world! 🚀' >> $GITHUB_STEP_SUMMARY
-          cat $DIFF >> $GITHUB_STEP_SUMMARY
+          # echo '### Hello world! 🚀' >> $GITHUB_STEP_SUMMARY
+          echo $DIFF >> $GITHUB_STEP_SUMMARY
       
