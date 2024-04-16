@@ -7,7 +7,7 @@ env:
   SCRIPT_PREFIX: rs_
   WHITELIST_PATHS: src/
   OUTPUT_SCRIPT: output-script.sql
-  PR_NUMBER: ${{ github.event.pull_request.number }}
+  PR_NUMBER: ${{ github.event.number }}
 
 jobs:
   gen-script:
