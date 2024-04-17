@@ -130,7 +130,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          COMMENT="Hello! This is a test comment from a GitHub Action."
+          COMMENT='View the generated [release script here]($ {{ env.PR_SUMMARY_LINK_2 }})'
           curl -X POST \
             -H "Authorization: token $GITHUB_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
