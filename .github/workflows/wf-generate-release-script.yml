@@ -99,6 +99,9 @@ jobs:
           | jq -r '.[0].number')
           echo "PR_ID=$PR_ID" >> $GITHUB_ENV
           
+          echo $(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs")
+                    
           JOB_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs" \
           | jq -r '.jobs[0].id')
