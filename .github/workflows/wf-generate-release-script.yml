@@ -110,6 +110,9 @@ jobs:
           echo "PR_SUMMARY_LINK_2=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}/jobs/${{ github.job.gen-script }}/summary_raw" >> $GITHUB_ENV
           echo ${{ github.job.gen-script }}
           echo ${{ github.job }}
+          echo ${{ github.job.id }}
+          echo ${{ github.job_id }}
+
 
         
       
