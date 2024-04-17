@@ -98,9 +98,9 @@ jobs:
           "https://api.github.com/repos/${{ github.repository }}/pulls?head=${{ github.repository_owner }}:${{ github.ref }}&state=open" \
           | jq -r '.[0].number')
           echo "PR_ID=$PR_ID" >> $GITHUB_ENV
-          # JOB_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-          # "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs" \
-          # | jq -r 'jobs[0].html_url')
+          JOB_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs" \
+          | jq -r '.jobs[0].id)
           echo $(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs")
           # echo "JOB_ID=$JOB_ID" >> $GITHUB_ENV
@@ -113,7 +113,7 @@ jobs:
         id: pr_summary_link
         run: |
           echo "PR_SUMMARY_LINK=https://github.com/${{ github.repository }}/pull/${{ env.PR_ID }}" >> $GITHUB_ENV
-          echo "PR_SUMMARY_LINK_2=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}/jobs/${{ github.job.gen-script }}/summary_raw" >> $GITHUB_ENV
+          echo "PR_SUMMARY_LINK_2=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}/jobs/${{ env.JOB_ID }}/summary_raw" >> $GITHUB_ENV
           echo ${{ github.job.gen-script }}
           echo ${{ github.job }}
           echo ${{ github.job.id }}
