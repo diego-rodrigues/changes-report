@@ -86,9 +86,9 @@ jobs:
           JOB_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs" \
           | jq -r '.jobs[0].id')
-          echo "PR_SUMMARY_LINK=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}/jobs/$JOB_ID/summary_raw" >> $GITHUB_ENV
-          # echo https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}/attemps/1#summary-${{ env.JOB_ID }}
-          echo https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}/attemps/1#summary-$JOB_ID
+          echo "PR_SUMMARY_LINK=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/1#summary-$JOB_ID" >> $GITHUB_ENV
+          # echo https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/1#summary-${{ env.JOB_ID }}
+          echo https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/1#summary-$JOB_ID
 
       # - name: Comment on Pull Request not working for now
       #   env:
@@ -109,5 +109,5 @@ jobs:
               issue_number: context.payload.pull_request.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '👋 Here is the [release script](${{ env.PR_SUMMARY_LINK }})!'
+              body: '👋 Here is the ✨[release script](${{ env.PR_SUMMARY_LINK }})✨!'
             })
