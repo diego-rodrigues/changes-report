@@ -111,7 +111,7 @@ jobs:
               issue_number: context.payload.pull_request.number,
             });
 
-            console.log(response);
+            console.log(response.data);
 
             response = JSON.parse(response);
             let id = -1;
