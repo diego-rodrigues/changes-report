@@ -10,12 +10,6 @@ env:
   PR_NUMBER: ${{ github.event.number }}
 
 jobs:
-  get_run_id:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print Run ID
-        run: env
-
   gen-script:
     runs-on: ubuntu-latest
 
@@ -132,5 +126,15 @@ jobs:
       #     echo '${{ steps.exp.outputs.job_summary_url }}'
       #   shell: bash
 
+      - name: Comment on Pull Request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          COMMENT="Hello! This is a test comment from a GitHub Action."
+          curl -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
+            -d "{\"body\": \"$COMMENT\"}"
         
       
