@@ -10,6 +10,12 @@ env:
   PR_NUMBER: ${{ github.event.number }}
 
 jobs:
+  get_run_id:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Run ID
+        run: echo "Run ID: ${{ env.GITHUB_RUN_ID }}"
+        
   gen-script:
     runs-on: ubuntu-latest
 
@@ -105,7 +111,7 @@ jobs:
           JOB_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs" \
           | jq -r '.jobs[0].id')
-          
+
 
           echo "JOB_ID=$JOB_ID" >> $GITHUB_ENV
   
