@@ -129,6 +129,11 @@ jobs:
           echo ${{ github.job.id }}
           echo ${{ github.job_id }}
 
+      - id: exp
+        uses: pl-strflt/job-summary-url-action@v1
+      - run: |
+          echo '${{ steps.exp.outputs.job_summary_url }}'
+        shell: bash
 
         
       
