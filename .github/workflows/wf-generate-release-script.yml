@@ -1,6 +1,12 @@
 name: Generate Release Script
 
-on: [push]
+on: 
+  push:
+  pull_request:
+    types:
+      - ready_for_review
+  
+  
 
 env:
   REFERENCE_BRANCH: origin/main
