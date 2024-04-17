@@ -122,18 +122,15 @@ jobs:
       - name: Construct PR Summary Link
         id: pr_summary_link
         run: |
-          echo "PR_SUMMARY_LINK=https://github.com/${{ github.repository }}/pull/${{ env.PR_ID }}" >> $GITHUB_ENV
-          echo "PR_SUMMARY_LINK_2=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}/jobs/${{ env.JOB_ID }}/summary_raw" >> $GITHUB_ENV
-          echo ${{ github.job.gen-script }}
-          echo ${{ github.job }}
-          echo ${{ github.job.id }}
-          echo ${{ github.job_id }}
+          # echo "PR_SUMMARY_LINK=https://github.com/${{ github.repository }}/pull/${{ env.PR_ID }}" >> $GITHUB_ENV
+          # echo "PR_SUMMARY_LINK_2=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}/jobs/${{ env.JOB_ID }}/summary_raw" >> $GITHUB_ENV
+          echo https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}/attemps/1#summary-${{ env.JOB_ID }}
 
-      - id: exp
-        uses: pl-strflt/job-summary-url-action@v1
-      - run: |
-          echo '${{ steps.exp.outputs.job_summary_url }}'
-        shell: bash
+      # - id: exp
+      #   uses: pl-strflt/job-summary-url-action@v1
+      # - run: |
+      #     echo '${{ steps.exp.outputs.job_summary_url }}'
+      #   shell: bash
 
         
       
