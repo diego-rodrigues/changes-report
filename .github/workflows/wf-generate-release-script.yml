@@ -105,6 +105,9 @@ jobs:
       
       - name: Construct PR Summary Link
         id: pr_summary_link
-        run: echo "PR_SUMMARY_LINK=https://github.com/${{ github.repository }}/pull/${{ env.PR_ID }}" >> $GITHUB_ENV
+        run: |
+          echo "PR_SUMMARY_LINK=https://github.com/${{ github.repository }}/pull/${{ env.PR_ID }}" >> $GITHUB_ENV
+          echo "PR_SUMMARY_LINK_2=https://github.com/${{ github.repository_owner }}/${{ github.repository }}/actions/runs/${{ github.run_id}}/jobs/${{ github.job }}/summary_raw" >> $GITHUB_ENV
 
+        
       
