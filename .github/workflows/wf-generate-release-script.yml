@@ -80,11 +80,15 @@ jobs:
       #   run: |
       #     echo "PR ID: ${{ env.PR_ID }}"
       
-      # - name: Construct PR Summary Link
-      #   id: pr_summary_link
-      #   run: |
-      #     echo "PR_SUMMARY_LINK=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}/jobs/${{ env.JOB_ID }}/summary_raw" >> $GITHUB_ENV
-      #     echo https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}/attemps/1#summary-${{ env.JOB_ID }}
+      - name: Construct PR Summary Link
+        id: pr_summary_link
+        run: |
+          JOB_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs" \
+          | jq -r '.jobs[0].id')
+          echo "PR_SUMMARY_LINK=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}/jobs/$JOB_ID/summary_raw" >> $GITHUB_ENV
+          # echo https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}/attemps/1#summary-${{ env.JOB_ID }}
+          echo https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}/attemps/1#summary-$JOB_ID
 
       # - name: Comment on Pull Request not working for now
       #   env:
