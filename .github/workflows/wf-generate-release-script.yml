@@ -98,12 +98,12 @@ jobs:
           "https://api.github.com/repos/${{ github.repository }}/pulls?head=${{ github.repository_owner }}:${{ github.ref }}&state=open" \
           | jq -r '.[0].number')
           echo "PR_ID=$PR_ID" >> $GITHUB_ENV
+          
           JOB_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs" \
           | jq -r '.jobs[0].id)
-          echo $(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-          "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs")
-          # echo "JOB_ID=$JOB_ID" >> $GITHUB_ENV
+
+          echo "JOB_ID=$JOB_ID" >> $GITHUB_ENV
   
       - name: Display PR ID
         run: |
