@@ -14,8 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print Run ID
-        run: |
-          echo "Run ID: ${{ env.GITHUB_RUN_ID }}"
+        run: env
 
   gen-script:
     runs-on: ubuntu-latest
