@@ -113,7 +113,7 @@ jobs:
 
             console.log(response.data);
 
-            response = JSON.parse(response);
+            response = JSON.parse(response.data);
             let id = -1;
             response.forEach(element => {
               console.log(element.user.login)
