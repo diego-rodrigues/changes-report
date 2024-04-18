@@ -125,20 +125,20 @@ jobs:
 
             console.log(id)
 
-            # if (id == -1) {
-            #   github.rest.issues.createComment({
-            #     issue_number: context.payload.pull_request.number,
-            #     owner: context.repo.owner,
-            #     repo: context.repo.repo,
-            #     body: '👋 Here is the ✨[release script](${{ env.PR_SUMMARY_LINK }})✨!'
-            #   });
-            # } else {
-            #   github.rest.issues.updateComment({
-            #   comment_id: id,
-            #   owner: context.repo.owner,
-            #   repo: context.repo.repo,
-            #   body: 'Updated: 👋 Here is the ✨[release script](${{ env.PR_SUMMARY_LINK }})✨!'
-            # });
-            # }
+            // if (id == -1) {
+            //   github.rest.issues.createComment({
+            //     issue_number: context.payload.pull_request.number,
+            //     owner: context.repo.owner,
+            //     repo: context.repo.repo,
+            //     body: '👋 Here is the ✨[release script](${{ env.PR_SUMMARY_LINK }})✨!'
+            //   });
+            // } else {
+            //   github.rest.issues.updateComment({
+            //   comment_id: id,
+            //   owner: context.repo.owner,
+            //   repo: context.repo.repo,
+            //   body: 'Updated: 👋 Here is the ✨[release script](${{ env.PR_SUMMARY_LINK }})✨!'
+            // });
+            // }
 
             
