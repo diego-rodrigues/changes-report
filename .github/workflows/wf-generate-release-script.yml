@@ -111,9 +111,9 @@ jobs:
               issue_number: context.payload.pull_request.number,
             });
 
-            console.log(response.data[0]);
+            console.log(response.data);
 
-            response = JSON.parse(response.data[0]);
+            response = response.data;
             let id = -1;
             response.forEach(element => {
               console.log(element.user.login)
