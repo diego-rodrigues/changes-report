@@ -117,7 +117,7 @@ jobs:
             let id = -1;
             response.forEach(element => {
               console.log(element.user.login)
-              if (element.user.login === "octocat") {
+              if (element.user.login === "github-actions[bot]") {
                 id = element.id;
               }
             });
@@ -132,12 +132,12 @@ jobs:
                 body: '👋 Here is the ✨[release script](${{ env.PR_SUMMARY_LINK }})✨!'
               });
             } else {
-              // update comment
-            }
-
-            github.rest.issues.updateComment({
+              github.rest.issues.updateComment({
               comment_id: id,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: 'Updated: 👋 Here is the ✨[release script](${{ env.PR_SUMMARY_LINK }})✨!'
             });
+            }
+
+            
