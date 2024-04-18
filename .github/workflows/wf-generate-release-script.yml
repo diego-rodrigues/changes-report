@@ -1,0 +1,144 @@
+name: Generate Release Script
+
+on: 
+  pull_request:
+    types:
+      - ready_for_review
+  
+
+env:
+  REFERENCE_BRANCH: origin/main
+  SCRIPT_PREFIX: rs_
+  WHITELIST_PATHS: src/
+  OUTPUT_SCRIPT: output-script.sql
+  PR_NUMBER: ${{ github.event.number }}
+
+jobs:
+  gen-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      # - uses: actions/checkout@v4
+      #   with:
+      #     persist-credentials: false
+      # - run: "date > datetime.txt" # create or update a test.txt file
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+    
+      - name: Get DIFF
+        uses: GrantBirki/git-diff-action@v2.6.1
+        id: git-diff-action
+        with:
+          json_diff_file_output: diff.json
+          file_output_only: "true"
+          base_branch: ${{ env.REFERENCE_BRANCH }} #origin/main works
+
+      - name: Print DIFF
+        env:
+          DIFF: ${{ steps.git-diff-action.outputs.json-diff-path }}
+        run: cat $DIFF
+
+    # - name: Checkout PR
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   run: gh pr checkout ${{ github.event.pull_request.number }}
+
+
+      - name: Generate Report
+        run: |
+          pip install -r requirements.txt
+          python .github/code/get_diff.py
+        
+      - name: Create Report
+        run: |
+          env
+          # echo '### Hello world! 🚀' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat ${{ env.OUTPUT_SCRIPT }} >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      # - name: Get Job ID
+      #   id: job_id
+      #   run: |
+      #     JOB_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+      #     "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs" \
+      #     | jq -r '.jobs[0].id')
+
+      #     echo "JOB_ID=$JOB_ID" >> $GITHUB_ENV
+  
+      # - name: Display PR ID
+      #   run: |
+      #     echo "PR ID: ${{ env.PR_ID }}"
+      
+      - name: Construct PR Summary Link
+        id: pr_summary_link
+        run: |
+          JOB_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs" \
+          | jq -r '.jobs[0].id')
+          echo "PR_SUMMARY_LINK=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/1#summary-$JOB_ID" >> $GITHUB_ENV
+          # echo https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/1#summary-${{ env.JOB_ID }}
+          echo https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/1#summary-$JOB_ID
+
+      # - name: Comment on Pull Request not working for now
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     COMMENT="View the generated [release script here](${{ env.PR_SUMMARY_LINK }})"
+      #     curl -X POST \
+      #       -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+      #       -H "Accept: application/vnd.github+json" \
+      #       -H "X-GitHub-Api-Version: 2022-11-28" \
+      #       https://api.github.com/repos/${{ github.repository }}/issues/1/comments \
+      #       -d "{\"body\": \"$COMMENT\"}"
+      
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            var response = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+            });
+
+            console.log(response.data);
+
+            response = response.data;
+            let id = -1;
+            response.forEach(element => {
+              console.log(element.user.login)
+              if (element.user.login === "github-actions[bot]") {
+                id = element.id;
+              }
+            });
+
+            console.log(id)
+
+            // if (id == -1) {
+            //   github.rest.issues.createComment({
+            //     issue_number: context.payload.pull_request.number,
+            //     owner: context.repo.owner,
+            //     repo: context.repo.repo,
+            //     body: '👋 Here is the ✨[release script](${{ env.PR_SUMMARY_LINK }})✨!'
+            //   });
+            // } else {
+            //   github.rest.issues.updateComment({
+            //   comment_id: id,
+            //   owner: context.repo.owner,
+            //   repo: context.repo.repo,
+            //   body: 'Updated: 👋 Here is the ✨[release script](${{ env.PR_SUMMARY_LINK }})✨!'
+            // });
+            // }
+
+            
